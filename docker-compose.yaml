@@ -2,7 +2,9 @@ version: '3'
 
 services:
     nginx:
-        image: nginx:latest
+        build:
+            context: ./dockerfiles
+            dockerfile: Dockerfile.nginx
         ports:
             - "80:80"
         volumes:
@@ -11,6 +13,9 @@ services:
         depends_on:
             - php
             - mysql
+        command: >
+            sh -c 'until nc -z mysql 3306; do sleep 1; done; nginx -g "daemon off;"'
+    
     mysql:
         image: mysql:latest
         volumes:
@@ -22,7 +27,9 @@ services:
         command: --init-file /docker-entrypoint-initdb.d/init.sql
 
     php:
-        build: .
+        build:
+            context: ./dockerfiles
+            dockerfile: Dockerfile.php
         ports:
             - "9000:9000"
         volumes:
