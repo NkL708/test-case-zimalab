@@ -49,9 +49,8 @@ class User {
         $this->position = $position;
     }
 
-    public function __construct($id, $firstName, $lastName, 
+    public function __construct($firstName, $lastName, 
         $email, $companyName, $position) {
-        $this->id = $id;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->email = $email;

@@ -1,5 +1,5 @@
 <?
-require "user.php";
+require 'user.php';
 
 class Database {
     public static mysqli $connection;
@@ -18,9 +18,11 @@ class Database {
         $result = self::$connection->query($query);
         $users = array();
         while ($row = $result->fetch_assoc()) {
-            $users[] = new User($row['id'], $row['first_name'], 
-                                $row['last_name'], $row['email'], 
-                                $row['company_name'], $row['position']);
+            $user = new User($row['first_name'], $row['last_name'], 
+                             $row['email'], $row['company_name'], 
+                             $row['position']);
+            $user->setId($row['id']);
+            $users[] = $user;
         }
 
         self::$connection->close();
@@ -32,37 +34,45 @@ class Database {
         
         $query = "SELECT * FROM users WHERE id='$id'";
         $result = self::$connection->query($query);
-        $user = $result->fetch_assoc();
+        $row = $result->fetch_assoc();
 
         self::$connection->close();
-        return $user;
+
+        if ($row) {
+            $user = new User($row['first_name'], $row['last_name'], 
+                             $row['email'], $row['company_name'], 
+                             $row['position']);
+            return $user;
+        }
+        return null;
     }
 
     public static function addUser(User $user) {
         self::connect();
 
-        $query = "INSERT INTO users (
-        {$user->getFirstName()}, 
-        {$user->getLastName()}, 
-        {$user->getEmail()}, 
-        {$user->getCompanyName()}, 
-        {$user->getPosition()},
-        )";
+        $query = "INSERT INTO 
+        users(first_name, last_name, email, 
+        company_name, position) VALUES(
+        '{$user->getFirstName()}', 
+        '{$user->getLastName()}', 
+        '{$user->getEmail()}', 
+        '{$user->getCompanyName()}', 
+        '{$user->getPosition()}')";
         self::$connection->query($query);
 
         self::$connection->close();
     }
 
-    public static function updateUser($id, User $user) {
+    public static function updateUser(User $user) {
         self::connect();
 
         $query = "UPDATE users SET 
-        first_name={$user->getFirstName()}, 
-        last_name={$user->getLastName()}, 
-        email={$user->getEmail()}, 
-        company_name={$user->getCompanyName()}, 
-        position={$user->getPosition()}, 
-        WHERE id=$id";
+        first_name='{$user->getFirstName()}', 
+        last_name='{$user->getLastName()}', 
+        email='{$user->getEmail()}', 
+        company_name='{$user->getCompanyName()}', 
+        position='{$user->getPosition()}'
+        WHERE id={$user->getId()}";
         self::$connection->query($query);
 
         self::$connection->close();

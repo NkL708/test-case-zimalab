@@ -1,5 +1,5 @@
 CREATE TABLE users(
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
 
     first_name VARCHAR(30),
     last_name VARCHAR(30),
@@ -11,6 +11,7 @@ CREATE TABLE users(
     position VARCHAR(30)
 );
 
-INSERT INTO users VALUES 
-(1, 'John', 'Doe', 'john.doe@gmail.com', 'Jail', 'Prisoner'),
-(2, 'John2', 'Doe2', 'john.doe@gmail.com2', 'Jail2', 'Prisoner2');
+INSERT INTO users(first_name, last_name, email, company_name, position) VALUES
+('John', 'Doe', 'john.doe@gmail.com', '', 'Suspect'),
+('Harry', 'Potter', 'theboywholived@gmail.com', 'Hogwarts', 'Student'),
+('Darth', 'Vader', 'anakinskywalker@gmail.com', 'Death star', 'Sith');
