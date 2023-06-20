@@ -1,11 +1,13 @@
 <?
+require 'phone_number.php';
 class User {
-    private $id;
-    private $firstName;
-    private $lastName;
-    private $email;
-    private $companyName;
-    private $position;
+    private int $id;
+    private string $firstName;
+    private string $lastName;
+    private string $email;
+    private array $phoneNumbers;
+    private string $companyName;
+    private string $position;
 
     public function getId() {
         return $this->id;
@@ -35,6 +37,24 @@ class User {
         $this->email = $email;
     }
 
+    public function getPhoneNumbers() {
+        return $this->phoneNumbers;
+    }
+
+    public function addPhoneNumber(PhoneNumber $phoneNumber) {
+        $this->phoneNumbers[] = $phoneNumber;
+    }
+
+    public function setPhoneNumbers($phoneNumbers) { 
+        $this->phoneNumbers = $phoneNumbers;
+    }
+
+    public function removePhoneNumber(PhoneNumber $phoneNumber) {
+        $index = array_search($phoneNumber, $this->phoneNumbers);
+        if ($index !== false)
+            unset($this->phoneNumbers[$index]);
+    }
+
     public function getCompanyName() {
         return $this->companyName;
     }
@@ -54,6 +74,7 @@ class User {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->email = $email;
+        $this->phoneNumbers = array();
         $this->companyName = $companyName;
         $this->position = $position;
     }

@@ -18,7 +18,7 @@
     <title>Управление пользователями</title>
 </head>
 
-<body class="bg-secondary">
+<body>
     <div class="container">
         <a href="/">
             <span class="material-symbols-outlined fs-1 text-black">home</span>
